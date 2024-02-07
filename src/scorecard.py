@@ -1,6 +1,6 @@
 
 
-class Scorecard:
+class ScoreCard:
 
     def __init__(self, scorecard):
         self.numeric_score = []
@@ -65,5 +65,5 @@ class Scorecard:
 if __name__ == '__main__':
 
 
-    ejemplo = Scorecard('XXXXXXXXXXXX')
+    ejemplo = ScoreCard('XXXXXXXXXXXX')
     print(ejemplo.get_total_score())
