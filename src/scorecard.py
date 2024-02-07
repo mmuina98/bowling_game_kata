@@ -3,23 +3,29 @@
 class Scorecard:
 
     def __init__(self, scorecard):
-        self.score = []
+        self.numeric_score = []
         self.scorecard = scorecard
         self.total_score = 0
         self.last_frame_size = 0
 
+    def get_numeric_score(self, position = None):
+        if position == None:
+            return self.numeric_score
+        else:
+            return self.numeric_score[position]
+
     def create_list_of_numeric_scores(self):
         for throw in range(len(self.scorecard)):
             if self.scorecard[throw] == 'X':
-                self.score.append(10)
+                self.get_numeric_score().append(10)
             elif self.scorecard[throw] == '/' and self.scorecard[throw-1] == '-':
-                self.score.append(10)
+                self.get_numeric_score().append(10)
             elif self.scorecard[throw] == '/':
-                self.score.append(10 - int(self.scorecard[throw-1]))
+                self.get_numeric_score().append(10 - int(self.scorecard[throw-1]))
             elif self.scorecard[throw] == '-':
-                self.score.append(0)
+                self.get_numeric_score().append(0)
             else:
-                self.score.append(int(self.scorecard[throw]))
+                self.get_numeric_score().append(int(self.scorecard[throw]))
 
     def calculate_last_frame_size(self):
         x = 0
@@ -31,19 +37,21 @@ class Scorecard:
             if x == 18:
                 self.last_frame_size = len(self.scorecard) - throw - 1
     
+    def add_to_numeric_scores(self, position, addition):
+        self.numeric_score[position] += addition
 
     def add_spare_and_strike(self):
         for throw in range(len(self.scorecard)):
             if self.scorecard[throw] == 'X' and throw < len(self.scorecard) - self.last_frame_size:
-                self.score[throw] += self.score[throw + 1] + self.score[throw + 2]
+                self.add_to_numeric_scores(throw, self.get_numeric_score(throw + 1) + self.get_numeric_score(throw + 2)) 
             elif self.scorecard[throw] == '/' and throw < len(self.scorecard) - self.last_frame_size:
-                self.score[throw] += self.score[throw + 1]
+                self.add_to_numeric_scores(throw, self.get_numeric_score(throw + 1))  
             else:
                 pass
 
     def calculate_total_score(self):
-        for throw in range(len(self.score)):
-            self.total_score += self.score[throw]
+        for throw in range(len(self.get_numeric_score())):
+            self.total_score += self.get_numeric_score()[throw]
         return self.total_score
     
     def get_total_score(self):
