@@ -28,13 +28,13 @@ class ScoreCard:
                 self.get_numeric_score().append(int(self.scorecard[throw]))
 
     def calculate_last_frame_size(self):
-        x = 0
+        frame = 0
         for throw in range(len(self.scorecard)):
             if self.scorecard[throw] == 'X':
-                x += 2
+                frame += 1
             else:
-                x += 1
-            if x == 18:
+                frame += 0.5
+            if frame == 9:
                 self.last_frame_size = len(self.scorecard) - throw - 1
     
     def add_to_numeric_scores(self, position, addition):
